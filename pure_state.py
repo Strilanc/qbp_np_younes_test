@@ -11,6 +11,7 @@ class PureState:
         err = abs(1 - sum(abs(a)**2 for a in classical_to_amplitude.values()))
         if err > 0.00001:
             raise ValueError("Squared magnitudes must sum to 1.")
+        # Discard negligible amplitudes as an approximation/optimization.
         self.superposition = {c: a
                               for c, a in classical_to_amplitude.items()
                               if abs(a) >= 0.0000001}
@@ -95,7 +96,7 @@ class PureState:
         raise AssertionError("Probabilities didn't sum to 1")
 
     def __str__(self):
-        return " + ".join("{:.3}".format(a) + "*" + str(c)
+        return " + ".join("{:.3f}".format(a) + "*" + str(c)
                           for c, a in self.superposition.items())
 
     def __repr__(self):

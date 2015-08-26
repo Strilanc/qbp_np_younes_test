@@ -79,13 +79,13 @@ def simulate_younes_algo(anti_clauses):
 
         step += 1
         for j in clause_bits:
-            v = controlled_by(
-                partial_x_rotation_op(ancilla_bit, m),
-                {j: True})
-            state = state.unitary_transform(v)
-        dt, state = state.post_select(bit_check_predicate(ancilla_bit))
+            op = controlled_by(
+                    partial_x_rotation_op(ancilla_bit, m),
+                    {j: True})
+            state = state.unitary_transform(op)
+        p_pass, state = state.post_select(bit_check_predicate(ancilla_bit))
         state = state.unitary_transform(not_op(ancilla_bit))
-        log_p_survived += log10(dt)
+        log_p_survived += log10(p_pass)
 
     # Final details.
     print("Samples:")

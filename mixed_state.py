@@ -12,6 +12,7 @@ class MixedState:
         err = abs(1 - sum(pure_to_probability_map.values()))
         if err > 0.00001:
             raise ValueError("Probabilities must sum to 1.")
+        # Discard negligible probabilities as an approximation/optimization.
         self.distribution = {
             pure_state: p
             for pure_state, p in pure_to_probability_map.items()
